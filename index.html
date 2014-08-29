@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+       <meta charset="utf-8">
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+       <title>Quiz App</title>
+       <meta name="description" content="">
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+       <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.3.3/css/foundation.css" />
+       <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+       <script src="http://underscorejs.org/underscore-min.js"></script>
+       <script src="main.js"></script>
+       <script src="model.js"></script>
+       <script src="controller.js"></script>
+       <script src="view.js"></script>
+   </head>
+   <body>
+     <!-- body goes here -->
+
+	<div id="quiz-app"></div>
+	<script type="text/template" id="template-results">
+	<div>
+	<h2>Results</h2>
+	<h3>You got <%= correctAnswers %> out of <%= totalQuestions %>!</h3>
+	</div>
+	</script>
+	<script type="text/template" id="template-question">
+		<div>
+			<h2><%= question %></h2>
+			<% for (var i in choices) { %>
+				<button value="<%=choices[i]%>"><%= choices[i] %></button>
+			<% } %>
+		</div>
+	</script>
+	<script>
+		var quizData = {
+			quizTitle: "My Quiz",
+			questions: [
+				{
+					question: "Question 1",
+					answer: "Correct Answer",
+					choices: [
+						"Correct Answer",
+						"Wrong Answer 1",
+						"Wrong Answer 2",
+						"Wrong Answer 3"
+					]
+				},
+				{
+					question: "Question 2",
+					answer: "Correct Answer",
+					choices: [
+						"Wrong Answer 1",
+						"Wrong Answer 2",
+						"Correct Answer",
+						"Wrong Answer 3"
+					]
+				},
+				{
+					question: "Question 3",
+					answer: "Correct Answer",
+					choices: [
+						"Wrong Answer 1",
+						"Wrong Answer 2",
+						"Wrong Answer 3",
+						"Correct Answer"
+					]
+				},
+				{
+					question: "Question 4",
+					answer: "Correct Answer",
+					choices: [
+						"Wrong Answer 1",
+						"Wrong Answer 2",
+						"Correct Answer",
+						"Wrong Answer 3"
+					]
+				},
+				{
+					question: "Question 5",
+					answer: "Correct Answer",
+					choices: [
+						"Wrong Answer 1",
+						"Correct Answer",
+						"Wrong Answer 2",
+						"Wrong Answer 3"
+					]
+				}
+			]
+		};
+
+		Quizzy.start('#quiz-app', quizData)
+	</script>
+
+   </body>
+</html>

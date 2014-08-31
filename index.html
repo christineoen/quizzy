@@ -10,80 +10,126 @@
        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
        <script src="http://underscorejs.org/underscore-min.js"></script>
        <script src="main.js"></script>
-       <script src="model.js"></script>
-       <script src="controller.js"></script>
-       <script src="view.js"></script>
    </head>
    <body>
      <!-- body goes here -->
 
 	<div id="quiz-app"></div>
+
 	<script type="text/template" id="template-results">
-	<div>
-	<h2>Results</h2>
-	<h3>You got <%= correctAnswers %> out of <%= totalQuestions %>!</h3>
-	</div>
+		<div class="row">
+		  <div class="large-12 columns">
+		    <h2>Results</h2>
+			<h3>You got <%= correctAnswers %> out of <%= totalQuestions %>!</h3>
+		  </div>
+		</div>
+		<form id="form">
+		  <div class="row">
+		    <div class="large-12 columns">
+		      <div class="row collapse">
+			    <div class="small-10 columns">
+			      <input id="name-field" type="text" placeholder="Enter your name">
+			    </div>
+			    <div class="small-2 columns">
+			      <input class="button postfix" id="submit" value="Post Score">
+			    </div>
+		      </div>
+		    </div>
+		  </div>
+		</form>
 	</script>
+
 	<script type="text/template" id="template-question">
-		<div>
-			<h2><%= question %></h2>
+		<div class="row">
+		  <div class="large-12 columns">
+			<h4><%= question %></h4>
 			<% for (var i in choices) { %>
-				<button value="<%=choices[i]%>"><%= choices[i] %></button>
+			<button value="<%=choices[i]%>"><%= choices[i] %></button>
 			<% } %>
+		  </div>
 		</div>
 	</script>
+
+	<script type="text/template" id="template-highscores">
+		<div class="row">
+		  <div class="large-12 columns">
+			<h2>High Scores</h2>
+			<h3><% for (var i = 0; i < localStorage.length; i++) { %>
+			<% var names = localStorage.key(i) %>
+			<%= names + ":" + localStorage[names]%>
+			<br />
+			<% } %> </h3>
+		  	<br /><button id="retake-quiz">Take Quiz Again</button>
+		  </div>
+		</div>
+	</script>
+
 	<script>
 		var quizData = {
-			quizTitle: "My Quiz",
+			quizTitle: "Who said it? Carl Sagan or Neil deGrasse Tyson?",
 			questions: [
 				{
-					question: "Question 1",
-					answer: "Correct Answer",
+					question: '"The most successful people in life recognize, that in life they create their own love, they manufacture their own meaning, they generate their own motivation."',
+					answer: "Neil deGrasse Tyson",
 					choices: [
-						"Correct Answer",
-						"Wrong Answer 1",
-						"Wrong Answer 2",
-						"Wrong Answer 3"
+						"Neil deGrasse Tyson",
+						"Carl Sagan"
 					]
 				},
 				{
-					question: "Question 2",
-					answer: "Correct Answer",
+					question: '"The universe is a pretty big place. If it&#39;s just us, seems like an awful waste of space."',
+					answer: "Carl Sagan",
 					choices: [
-						"Wrong Answer 1",
-						"Wrong Answer 2",
-						"Correct Answer",
-						"Wrong Answer 3"
+						"Neil deGrasse Tyson",
+						"Carl Sagan"
 					]
 				},
 				{
-					question: "Question 3",
-					answer: "Correct Answer",
+					question: '"It pays to keep an open mind, but not so open your brains fall out."',
+					answer: "Carl Sagan",
 					choices: [
-						"Wrong Answer 1",
-						"Wrong Answer 2",
-						"Wrong Answer 3",
-						"Correct Answer"
+						"Neil deGrasse Tyson",
+						"Carl Sagan"
 					]
 				},
 				{
-					question: "Question 4",
-					answer: "Correct Answer",
+					question: '"Knowing how to think empowers you far beyond those who know only what to think."',
+					answer: "Neil deGrasse Tyson",
 					choices: [
-						"Wrong Answer 1",
-						"Wrong Answer 2",
-						"Correct Answer",
-						"Wrong Answer 3"
+						"Neil deGrasse Tyson",
+						"Carl Sagan"
 					]
 				},
 				{
-					question: "Question 5",
-					answer: "Correct Answer",
+					question: '"I love the smell of the universe in the morning."',
+					answer: "Neil deGrasse Tyson",
 					choices: [
-						"Wrong Answer 1",
-						"Correct Answer",
-						"Wrong Answer 2",
-						"Wrong Answer 3"
+						"Neil deGrasse Tyson",
+						"Carl Sagan"
+					]
+				},
+				{
+					question: '"For small creatures such as we the vastness is bearable only through love."',
+					answer: "Carl Sagan",
+					choices: [
+						"Neil deGrasse Tyson",
+						"Carl Sagan"
+					]
+				},
+				{
+					question: '"Not only do we live among the stars, the stars live within us."',
+					answer: "Neil deGrasse Tyson",
+					choices: [
+						"Neil deGrasse Tyson",
+						"Carl Sagan"
+					]
+				},
+				{
+					question: '"If you wish to make an apple pie from scratch, you must first invent the universe."',
+					answer: "Carl Sagan",
+					choices: [
+						"Neil deGrasse Tyson",
+						"Carl Sagan"
 					]
 				}
 			]

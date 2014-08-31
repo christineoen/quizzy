@@ -21,8 +21,9 @@ var Quizzy = (function() {
 			}
 		},
 		nextQuestion: function() {
-			if (correctAnswers + incorrectAnswers == 5) {
+			if (correctAnswers + incorrectAnswers == 8) {
 				var total = correctAnswers + incorrectAnswers;
+				this.formView;
 				this.showResults(correctAnswers, incorrectAnswers);
 			}
 			else {
@@ -35,6 +36,7 @@ var Quizzy = (function() {
 			totalQuestions = correctAnswers + incorrectAnswers;
 			resultView(correctAnswers, totalQuestions);
 		}
+
 	};
 
 	function QuestionModel(questionData) {
@@ -43,7 +45,6 @@ var Quizzy = (function() {
 		this.choices = questionData.choices;
 		this.view = new QuestionView(this);
 	}
-
 
 	function QuestionView(questionModel) {
 		var me = this;
@@ -83,8 +84,46 @@ var Quizzy = (function() {
 			correctAnswers: correctAnswers,
 			totalQuestions: totalQuestions
 		});
-		$quizContainer.append(compiledHtml);
 
+		var args = arguments;
+		var $view = $(compiledHtml);
+
+		$view.find('#submit').on('click', function(){
+			$view.hide();
+			highScoreView($("#name-field").val(), args);
+		});
+
+		$quizContainer.append($view);
+	}
+
+	function highScoreView(name, args) {
+		console.log("high score view")
+		var score = args[0] + "/" + args[1];
+		localStorage.setItem(name, score);
+		this.template = $('#template-highscores').html();
+		var preppedTemplate = _.template(this.template);
+		var compiledHtml = preppedTemplate({
+			name: name,
+			highScores: args
+		});
+
+		var $view = $(compiledHtml);
+
+		$view.find('#retake-quiz').on('click', function(){
+			restartApplication();
+		});
+
+		$quizContainer.append($view);
+	}
+
+	function restartApplication() {
+		$('#quiz-app').empty();
+		questionModels = [];
+		currentIndex = 0;
+		correctAnswers = 0;
+		incorrectAnswers = 0;
+		totalQuestions = 0;
+		startApplication('#quiz-app', quizData);
 	}
 
 	function startApplication(selector, quizData) {
@@ -103,6 +142,5 @@ var Quizzy = (function() {
 	return {
 		start: startApplication
 	}
+
 })();
-
-

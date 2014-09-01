@@ -1,0 +1,56 @@
+body {
+	background: url('../images/horizon.jpg') no-repeat center center fixed;
+	background-size: cover;
+	font-family: 'Play', sans-serif;
+}
+
+h1 {
+	text-align: center;
+	color: white;
+	margin-bottom: 50px;
+	font-size: 20px;
+}
+
+h2, h3, h4 {
+	color: white;
+	text-align: center;
+	font-size: 30px;
+}
+
+.quote {
+	width: 80%;
+	display: block;
+	margin: 0 auto;
+}
+
+#tyson {
+	background: url('../images/tyson200.jpg');
+	width: 200px;
+	height: 200px;
+	border-radius: 10px;
+	border: solid 2px #333;
+	float: right;
+}
+
+#sagan {
+	background-image: url('../images/sagan200.jpg');
+	width: 200px;
+	height: 200px;
+	border-radius: 10px;
+	border: solid 2px #333;
+	float: left;
+}
+
+#tyson:hover, #sagan:hover {
+	border: solid 2px white;
+	cursor: pointer;
+
+}
+
+.answer-buttons{
+	width: 40%;
+	margin: 0 auto;
+	position: absolute;
+	bottom: 20%;
+	left: 30%;
+}

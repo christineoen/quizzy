@@ -6,7 +6,9 @@
        <title>Quiz App</title>
        <meta name="description" content="">
        <meta name="viewport" content="width=device-width, initial-scale=1">
-       <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/foundation/5.3.3/css/foundation.css" />
+       <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+       <link href='http://fonts.googleapis.com/css?family=Play:400' rel='stylesheet' type='text/css'>
+       <link rel="stylesheet" href="styles/style.css">
        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
        <script src="http://underscorejs.org/underscore-min.js"></script>
        <script src="main.js"></script>
@@ -17,49 +19,32 @@
 	<div id="quiz-app"></div>
 
 	<script type="text/template" id="template-results">
-		<div class="row">
-		  <div class="large-12 columns">
-		    <h2>Results</h2>
-			<h3>You got <%= correctAnswers %> out of <%= totalQuestions %>!</h3>
-		  </div>
-		</div>
+	    <h2>Results</h2>
+		<h3>You got <%= correctAnswers %> out of <%= totalQuestions %>!</h3>
 		<form id="form">
-		  <div class="row">
-		    <div class="large-12 columns">
-		      <div class="row collapse">
-			    <div class="small-10 columns">
-			      <input id="name-field" type="text" placeholder="Enter your name">
-			    </div>
-			    <div class="small-2 columns">
-			      <input class="button postfix" id="submit" value="Post Score">
-			    </div>
-		      </div>
-		    </div>
-		  </div>
+	      <input id="name-field" type="text" placeholder="Enter your name">
+	      <input class="button postfix" id="submit" value="Post Score">
 		</form>
 	</script>
 
 	<script type="text/template" id="template-question">
-		<div class="row">
-		  <div class="large-12 columns">
-			<h4><%= question %></h4>
-			<% for (var i in choices) { %>
-			<button value="<%=choices[i]%>"><%= choices[i] %></button>
-			<% } %>
+		<h4 class="quote"><%= question %></h4>
+		  <div class="answer-buttons">
+			<button value="<%=choices[1]%>" id="sagan"></button>
+			<button value="<%=choices[0]%>" id="tyson"></button>
 		  </div>
-		</div>
 	</script>
 
 	<script type="text/template" id="template-highscores">
 		<div class="row">
-		  <div class="large-12 columns">
+		  <div class="large-12 large-centered columns">
 			<h2>High Scores</h2>
 			<h3><% for (var i = 0; i < localStorage.length; i++) { %>
 			<% var names = localStorage.key(i) %>
 			<%= names + ":" + localStorage[names]%>
 			<br />
 			<% } %> </h3>
-		  	<br /><button id="retake-quiz">Take Quiz Again</button>
+		  	<br /><button id="retake-quiz"><i class="fa fa-rocket"></i>Take Quiz Again</button>
 		  </div>
 		</div>
 	</script>

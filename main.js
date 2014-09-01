@@ -97,7 +97,6 @@ var Quizzy = (function() {
 	}
 
 	function highScoreView(name, args) {
-		console.log("high score view")
 		var score = args[0] + "/" + args[1];
 		localStorage.setItem(name, score);
 		this.template = $('#template-highscores').html();

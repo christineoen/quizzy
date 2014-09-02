@@ -50,7 +50,7 @@ var Quizzy = (function() {
 			};
 			correct = jQuestions.questions[currentIndex-1]['correct'];
 			incorrect = jQuestions.questions[currentIndex-1]['incorrect'];
-			var percent_correct = (correct / (correct + incorrect)) * 100;
+			var percent_correct = Math.round((correct / (correct + incorrect)) * 100);
 			QuestionResultView(percent_correct);
 			setTimeout(this.nextQuestion, 2000);
 		},
@@ -119,14 +119,6 @@ var Quizzy = (function() {
 			percent_correct: percent_correct
 		});
 		var $view = $(compiledHtml);
-
-		this.hide = function() {
-			$view.hide();
-		};
-
-		this.remove = function() {
-			$view.html('');
-		};
 
 		$quizContainer.append($view);
 	}

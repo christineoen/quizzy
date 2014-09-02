@@ -31,28 +31,7 @@ var Quizzy = (function() {
 				var result = 'incorrect';
 				var html = '<i class="fa fa-times"></i>';
 			}
-			this.questionResult(result, html, clickedButton);
-		},
-		questionResult: function(result, html, clickedButton) {
-			$(clickedButton).html(html);
-			if (!localStorage['questions']) {
-				jQuestions.questions[currentIndex-1][result] = 1;
-				console.log(jQuestions);
-				var questions = JSON.stringify(jQuestions);
-				localStorage['questions'] = questions;
-			}
-			else {
-				var questions = localStorage['questions'];
-				jQuestions = JSON.parse(questions);
-				jQuestions.questions[currentIndex-1][result] += 1;
-				var questions = JSON.stringify(jQuestions);
-				localStorage['questions'] = questions;
-			};
-			correct = jQuestions.questions[currentIndex-1]['correct'];
-			incorrect = jQuestions.questions[currentIndex-1]['incorrect'];
-			var percent_correct = Math.round((correct / (correct + incorrect)) * 100);
-			QuestionResultView(percent_correct);
-			setTimeout(this.nextQuestion, 2000);
+			QuestionResultView(result, html, clickedButton);
 		},
 		nextQuestion: function() {
 			$('.percent-correct').html('');
@@ -112,7 +91,27 @@ var Quizzy = (function() {
 		$quizContainer.append($view);
 	}
 
-	function QuestionResultView(percent_correct) {
+	function QuestionResultView(result, html, clickedButton) {
+		$(clickedButton).html(html);
+		if (!localStorage['questions']) {
+			jQuestions.questions[currentIndex-1][result] = 1;
+			console.log(jQuestions);
+			var questions = JSON.stringify(jQuestions);
+			localStorage['questions'] = questions;
+		}
+		else {
+			var questions = localStorage['questions'];
+			jQuestions = JSON.parse(questions);
+			jQuestions.questions[currentIndex-1][result] += 1;
+			var questions = JSON.stringify(jQuestions);
+			localStorage['questions'] = questions;
+		};
+		correct = jQuestions.questions[currentIndex-1]['correct'];
+		incorrect = jQuestions.questions[currentIndex-1]['incorrect'];
+		var percent_correct = Math.round((correct / (correct + incorrect)) * 100);
+
+		setTimeout(QuizController.nextQuestion, 2000);
+
 		this.template = $('#template-question-result').html();
 		var preppedTemplate = _.template(this.template);
 		var compiledHtml = preppedTemplate({
@@ -153,6 +152,7 @@ var Quizzy = (function() {
 		else {
 			var jPlayer = JSON.parse(localStorage['players']);
 			jPlayer.players.push({"name": name, "score": args[0]});
+
 			var player = JSON.stringify(jPlayer);
 			localStorage['players'] = player;
 		}
@@ -202,5 +202,3 @@ var Quizzy = (function() {
 	}
 
 })();
-
-

@@ -6,23 +6,56 @@ var Quizzy = (function() {
 	var correctAnswers = 0;
 	var incorrectAnswers = 0;
 	var totalQuestions;
+	var jQuestions = {"questions":[
+	  {"question": 1, "correct": 0, "incorrect": 0},
+	  {"question": 2, "correct": 0, "incorrect": 0},
+	  {"question": 3, "correct": 0, "incorrect": 0},
+	  {"question": 4, "correct": 0, "incorrect": 0},
+	  {"question": 5, "correct": 0, "incorrect": 0},
+	  {"question": 6, "correct": 0, "incorrect": 0},
+	  {"question": 7, "correct": 0, "incorrect": 0},
+	  {"question": 8, "correct": 0, "incorrect": 0}
+	  ]};
 
 	var QuizController = {
 		checkAnswer: function(clickedButton, input, questionModel) {
 			if (input == questionModel.answer) {
 				currentIndex ++
 				correctAnswers ++
-				$(clickedButton).html('<i class="fa fa-check"></i>');
-				setTimeout(this.nextQuestion, 500);
+				var result = 'correct';
+				var html = '<i class="fa fa-check"></i>';
 			}
 			else {
 				currentIndex ++
 				incorrectAnswers ++
-				$(clickedButton).html('<i class="fa fa-times"></i>');
-				setTimeout(this.nextQuestion, 500);
+				var result = 'incorrect';
+				var html = '<i class="fa fa-times"></i>';
 			}
+			this.questionResult(result, html, clickedButton);
+		},
+		questionResult: function(result, html, clickedButton) {
+			$(clickedButton).html(html);
+			if (!localStorage['questions']) {
+				jQuestions.questions[currentIndex-1][result] = 1;
+				console.log(jQuestions);
+				var questions = JSON.stringify(jQuestions);
+				localStorage['questions'] = questions;
+			}
+			else {
+				var questions = localStorage['questions'];
+				jQuestions = JSON.parse(questions);
+				jQuestions.questions[currentIndex-1][result] += 1;
+				var questions = JSON.stringify(jQuestions);
+				localStorage['questions'] = questions;
+			};
+			correct = jQuestions.questions[currentIndex-1]['correct'];
+			incorrect = jQuestions.questions[currentIndex-1]['incorrect'];
+			var percent_correct = (correct / (correct + incorrect)) * 100;
+			QuestionResultView(percent_correct);
+			setTimeout(this.nextQuestion, 2000);
 		},
 		nextQuestion: function() {
+			$('.percent-correct').html('');
 			if (correctAnswers + incorrectAnswers == 8) {
 				var total = correctAnswers + incorrectAnswers;
 				QuizController.showResults(correctAnswers, incorrectAnswers); //set timeout changed 'this' to window
@@ -35,7 +68,7 @@ var Quizzy = (function() {
 		showResults: function(correctAnswers, incorrectAnswers) {
 			questionModels[currentIndex - 1].view.hide();
 			totalQuestions = correctAnswers + incorrectAnswers;
-			resultView(correctAnswers, totalQuestions);
+			ResultView(correctAnswers, totalQuestions);
 		}
 	};
 
@@ -70,7 +103,7 @@ var Quizzy = (function() {
 
 		this.hide = function() {
 			$view.hide();
-		}
+		};
 
 		this.show = function() {
 			$view.show();
@@ -79,7 +112,26 @@ var Quizzy = (function() {
 		$quizContainer.append($view);
 	}
 
-	function resultView(correctAnswers, totalQuestions) {
+	function QuestionResultView(percent_correct) {
+		this.template = $('#template-question-result').html();
+		var preppedTemplate = _.template(this.template);
+		var compiledHtml = preppedTemplate({
+			percent_correct: percent_correct
+		});
+		var $view = $(compiledHtml);
+
+		this.hide = function() {
+			$view.hide();
+		};
+
+		this.remove = function() {
+			$view.html('');
+		};
+
+		$quizContainer.append($view);
+	}
+
+	function ResultView(correctAnswers, totalQuestions) {
 		this.template = $('#template-results').html();
 		var preppedTemplate = _.template(this.template);
 		var compiledHtml = preppedTemplate({
@@ -92,13 +144,13 @@ var Quizzy = (function() {
 
 		$view.find('#post-score').on('click', function(){
 			$view.hide();
-			highScoreView($("#name-field").val(), args);
+			HighScoreView($("#name-field").val(), args);
 		});
 
 		$quizContainer.append($view);
 	}
 
-	function highScoreView(name, args) {
+	function HighScoreView(name, args) {
 		if (!localStorage['players']) {
 			var jPlayer = {"players":[
 						{"name": name, "score": args[0]}

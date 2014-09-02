@@ -55,6 +55,14 @@ h2, h3, h4 {
 	left: 30%;
 }
 
+.percent-correct {
+	position: absolute;
+	bottom: 5%;
+	text-align: center;
+	width: 100%;
+	margin: 0 auto;
+}
+
 .fa-check {
 	font-size: 80px;
 	color: green;

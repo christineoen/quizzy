@@ -54,3 +54,57 @@ h2, h3, h4 {
 	bottom: 20%;
 	left: 30%;
 }
+
+.fa-check {
+	font-size: 80px;
+	color: green;
+}
+
+.fa-times {
+	font-size: 80px;
+	color: red;
+}
+
+#post-score-form {
+	width: 15%;
+	margin: 0 auto;
+}
+
+#name-field {
+	width: 100%;
+	text-align: center;
+	font-family: 'Play', sans-serif;
+	font-size: 20px;
+	padding: 8px;
+}
+
+#post-score {
+	width: 100%;
+	text-align: center;
+	font-family: 'Play', sans-serif;
+	font-size: 20px;
+	padding: 8px;
+}
+
+#post-score:hover {
+	cursor: pointer;
+}
+
+#retake-quiz:hover {
+	cursor: pointer;
+}
+
+#retake-quiz {
+	width: 100%;
+	text-align: center;
+	font-family: 'Play', sans-serif;
+	font-size: 20px;
+	padding: 8px;
+}
+
+.retake-quiz-wrapper {
+	width: 15%;
+	margin: 0 auto;
+}
+
+

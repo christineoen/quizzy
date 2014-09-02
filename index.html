@@ -11,7 +11,7 @@
        <link rel="stylesheet" href="styles/style.css">
        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
        <script src="http://underscorejs.org/underscore-min.js"></script>
-       <script src="main.js"></script>
+       <script src="js/main.js"></script>
    </head>
    <body>
      <!-- body goes here -->
@@ -21,9 +21,9 @@
 	<script type="text/template" id="template-results">
 	    <h2>Results</h2>
 		<h3>You got <%= correctAnswers %> out of <%= totalQuestions %>!</h3>
-		<form id="form">
+		<form id="post-score-form">
 	      <input id="name-field" type="text" placeholder="Enter your name">
-	      <input class="button postfix" id="submit" value="Post Score">
+	      <input id="post-score" value="Post Score">
 		</form>
 	</script>
 
@@ -36,16 +36,16 @@
 	</script>
 
 	<script type="text/template" id="template-highscores">
-		<div class="row">
-		  <div class="large-12 large-centered columns">
+		<div>
 			<h2>High Scores</h2>
-			<h3><% for (var i = 0; i < localStorage.length; i++) { %>
-			<% var names = localStorage.key(i) %>
-			<%= names + ":" + localStorage[names]%>
-			<br />
-			<% } %> </h3>
-		  	<br /><button id="retake-quiz"><i class="fa fa-rocket"></i>Take Quiz Again</button>
-		  </div>
+		  	<h3><% for (var i = 0; i < jPlayer.players.length; i++) { %>
+		  	<%= jPlayer.players[i]['name'] + ": " + jPlayer.players[i]['score'] + "/" + score[1] %>
+		  	<br />
+		  	<% } %> </h3>
+		  	<br />
+		  	<div class="retake-quiz-wrapper">
+		  	<button id="retake-quiz">Retake Quiz  <i class="fa fa-rocket"></i></button>
+		  	</div>
 		</div>
 	</script>
 

@@ -8,23 +8,24 @@ var Quizzy = (function() {
 	var totalQuestions;
 
 	var QuizController = {
-		checkAnswer: function(input, questionModel) {
+		checkAnswer: function(clickedButton, input, questionModel) {
 			if (input == questionModel.answer) {
 				currentIndex ++
 				correctAnswers ++
-				this.nextQuestion();
+				$(clickedButton).html('<i class="fa fa-check"></i>');
+				setTimeout(this.nextQuestion, 500);
 			}
 			else {
 				currentIndex ++
 				incorrectAnswers ++
-				this.nextQuestion();
+				$(clickedButton).html('<i class="fa fa-times"></i>');
+				setTimeout(this.nextQuestion, 500);
 			}
 		},
 		nextQuestion: function() {
 			if (correctAnswers + incorrectAnswers == 8) {
 				var total = correctAnswers + incorrectAnswers;
-				this.formView;
-				this.showResults(correctAnswers, incorrectAnswers);
+				QuizController.showResults(correctAnswers, incorrectAnswers); //set timeout changed 'this' to window
 			}
 			else {
 				questionModels[currentIndex - 1].view.hide();
@@ -36,7 +37,6 @@ var Quizzy = (function() {
 			totalQuestions = correctAnswers + incorrectAnswers;
 			resultView(correctAnswers, totalQuestions);
 		}
-
 	};
 
 	function QuestionModel(questionData) {
@@ -58,8 +58,10 @@ var Quizzy = (function() {
 		});
 		var $view = $(compiledHtml);
 
-		$view.find('button').on('click', function(){
+		$view.find('button').one('click', function(){
+			var $clickedButton = this;
 			QuizController.checkAnswer(
+				$clickedButton,
 				$(this).val(),
 				me.model
 			);
@@ -88,7 +90,7 @@ var Quizzy = (function() {
 		var args = arguments;
 		var $view = $(compiledHtml);
 
-		$view.find('#submit').on('click', function(){
+		$view.find('#post-score').on('click', function(){
 			$view.hide();
 			highScoreView($("#name-field").val(), args);
 		});
@@ -97,13 +99,26 @@ var Quizzy = (function() {
 	}
 
 	function highScoreView(name, args) {
-		var score = args[0] + "/" + args[1];
-		localStorage.setItem(name, score);
+		if (!localStorage['players']) {
+			var jPlayer = {"players":[
+						{"name": name, "score": args[0]}
+						]};
+			var player = JSON.stringify(jPlayer);
+			localStorage['players'] = player;
+		}
+		else {
+			var jPlayer = JSON.parse(localStorage['players']);
+			jPlayer.players.push({"name": name, "score": args[0]});
+			var player = JSON.stringify(jPlayer);
+			localStorage['players'] = player;
+		}
+
 		this.template = $('#template-highscores').html();
 		var preppedTemplate = _.template(this.template);
 		var compiledHtml = preppedTemplate({
 			name: name,
-			highScores: args
+			score: args,
+			jPlayer: jPlayer
 		});
 
 		var $view = $(compiledHtml);
@@ -143,3 +158,5 @@ var Quizzy = (function() {
 	}
 
 })();
+
+

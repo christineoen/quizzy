@@ -1,33 +1,34 @@
 var QuizController = {
 	checkAnswer: function(clickedButton, input, questionModel) {
 		if (input == questionModel.answer) {
-			currentIndex ++
-			correctAnswers ++
+			this.quiz.currentIndex ++
+			this.quiz.correctAnswers ++
 			var result = 'correct';
 			var html = '<i class="fa fa-check"></i>';
 		}
 		else {
-			currentIndex ++
-			incorrectAnswers ++
+			this.quiz.currentIndex ++
+			this.quiz.incorrectAnswers ++
 			var result = 'incorrect';
 			var html = '<i class="fa fa-times"></i>';
 		}
-		QuestionResultView(result, html, clickedButton);
+		$(clickedButton).html(html);
+		renderQuestionResultView(result, this.quiz, this.view);
 	},
 	nextQuestion: function() {
 		$('.percent-correct').html('');
-		if (correctAnswers + incorrectAnswers == 8) {
-			var total = correctAnswers + incorrectAnswers;
-			QuizController.showResults(correctAnswers, incorrectAnswers); //set timeout changed 'this' to window
+		if (QuizController.quiz.correctAnswers + QuizController.quiz.incorrectAnswers == 8) {
+			var total = QuizController.quiz.correctAnswers + QuizController.quiz.incorrectAnswers;
+			QuizController.showResults(QuizController.quiz.correctAnswers, QuizController.quiz.incorrectAnswers); //set timeout changed 'this' to window
 		}
 		else {
-			questionModels[currentIndex - 1].view.hide();
-			questionModels[currentIndex].view.show();
+			questionModels[QuizController.quiz.currentIndex - 1].view.hide();
+			questionModels[QuizController.quiz.currentIndex].view.show();
 		}
 	},
 	showResults: function(correctAnswers, incorrectAnswers) {
-		questionModels[currentIndex - 1].view.hide();
+		questionModels[QuizController.quiz.currentIndex - 1].view.hide();
 		totalQuestions = correctAnswers + incorrectAnswers;
-		ResultView(correctAnswers, totalQuestions);
+		ResultView(correctAnswers, totalQuestions, QuizController.view);
 	}
 };
